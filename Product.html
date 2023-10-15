@@ -2,133 +2,210 @@
 <html lang="en">
 
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Product Managment</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Product Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
-<style>
-    body {
-    background-color: #FFFFFF;
-    color: #008000;
-    }
+    <style>
+        body {
+            background-color: #FFFFFF;
+            color: #008000;
+        }
 
-    form {
-    background-color: #ffffff;
-    color: #008000;
-    padding: 20px;
-    border-radius: 10px;
-    }
+        form {
+            background-color: #ffffff;
+            color: #008000;
+            padding: 20px;
+            border-radius: 10px;
+        }
 
-    #display {
-    background-color: #FFFFFF;
-    color: #00000;
-    border: none;
-    resize: none;
-    overflow: hidden;
-    text-align: center;
-    }
-</style>
+        #display {
+            background-color: #FFFFFF;
+            color: #008000;
+            border: none;
+            resize: none;
+            overflow: hidden;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
-
 <div class="container text-center">
-<h1 class="mt-5">Product Mangament</h1>
+    <h1 class="mt-5">Product Management</h1>
 </div>
 
 <form onsubmit="handleSubmit(event)">
-    <div class="row">
+    <div class="container">
+        <div class="row justify-content-center">
         <div class="col-6">
             <div class="p-3 mb-2 bg-secondary-subtle text-emphasis-secondary">
 
                 <div class="container text-center">
                     <h1>New Product</h1>
-                    </div>
+                </div>
 
                 <div class="mb-3">
-                    <label for="ProductID" class ="form-label">Product ID:</label>
-                    <input type="text" class="form-control" id="ProductID">
+                    <label for="ProductID" class="form-label">Product ID:</label>
+                    <input type="text" class="form-control" id="ProductID" placeholder="Enter Product ID">
+                    <div id="ProductIDError"></div>
                 </div>
 
                 <div class="mb-3">
                     <label for="ProductDescription" class="form-label">Product Description:</label>
-                    <input type="text" class="form-control" id="ProductDescription">
+                    <input type="text" class="form-control" id="ProductDescription" placeholder="Enter Product Description">
+                    <div id="ProductDescError"></div>
                 </div>
 
                 <div class="mb-3">
                     <label for="ProductCategory" class="form-label">Product Category:</label>
-                    <select class="form-select mb-3" aria-label="Default select example">
-                        <option selected>Category</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <select class="form-select mb-3" id="ProductCategory">
+                        <option value="">Select Category</option>
+                        <option>Produce</option>
+                        <option>Dairy</option>
+                        <option>Snacks</option>
+                        <option>Breakfast</option>
+                        <option>Frozen</option>
+                        <option>Meat</option>
+                        <option>Fish</option>
+                        <option>Dry Stock</option>
+                        <option>Stationary</option>
                     </select>
                 </div>
 
                 <div class="mb-3">
                     <label for="ProductUOM" class="form-label">Product Unit of Measure:</label>
-                    <select class="form-select mb-3" aria-label="Default select example">
-                        <option selected>Category</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <select class="form-select mb-3" id="ProductUOM">
+                        <option value="">Select Unit of Measure</option>
+                        <option>Ounces(oz.)</option>
+                        <option>Pounds(lbs.)</option>
+                        <option>Fluid Ounces(fl. oz.)</option>
+                        <option>Quantity</option>
                     </select>
                 </div>
 
                 <div class="mb-3">
-                    <label for="ProductPrice" class ="form-label">Product Price:</label>
-                    <input type="text" class="form-control" id="ProductPrice">
+                    <label for="ProductPrice" class="form-label">Product Price:</label>
+                    <input type="text" class="form-control" id="ProductPrice" placeholder="Enter Product Price">
+                    <div id="ProdPriceError"></div>
                 </div>
 
                 <div class="mb-3">
-                    <label for="ProductWeight" class ="form-label">Product Weight:</label>
-                    <input type="text" class="form-control" id="ProductWeight">
+                    <label for="ProductWeight" class="form-label">Product Weight:</label>
+                    <input type="text" class="form-control" id="ProductWeight" placeholder="Enter Product Weight">
+                    <div id="ProdWeightError"></div>
                 </div>
 
                 <button style="background-color: #008000;" type="submit" class="btn btn-primary">Save</button>
             </div>
         </div>
-
-        <div class="col-6">
-            <div class="p-3 mb-2 bg-secondary-subtle text-emphasis-secondary">
-        
-                <div class="container text-center">
-                    <h1>Product Search</h1>
-                </div>
-        
-                <div class="mb-3">
-                    <label class="form-label">Product ID:</label>
-                    <input type="text" class="form-control" id="searchInput" placeholder="Search for a product" aria-label="Search">
-                </div>
-        
-                <div class="mb-3">
-                    <button style="background-color: #008000;" type="submit" class="btn btn-primary">Search</button>
-                </div>
-        
-                <div class="col-12 mt-3 d-flex flex-column align-items-center">
-                    <textarea id="display" rows="17" cols="58" readonly style="color: #008000;"></textarea>
-                </div>
             </div>
         </div>
-        
-        </div>
+    </div>
     </div>
 </form>
-  
-<div class="container text-center">
-<div class="col">
-    <div class="div_footer">
-    <a href="terms.html" style="color: #008000;">Terms of Use</a>
-    </div>
-    <div class="div_footer">
-    <a href="cookie-policy.html" style="color: #008000;">Cookie and Privacy Policy</a>
-    </div>
-    <div class="div_footer" style="color: #008000;">
-    &copy; 2023 Grocery Outlet
+<form>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <div class="p-3 mb-2 bg-secondary-subtle text-emphasis-secondary">
+
+                    <div class="container text-center">
+                        <h1>Product Search</h1>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="searchInput" class="form-label">Search for a product:</label>
+                    <input type="text" class="form-control" id="searchInput" placeholder="Enter product to search">
+                 </div>
+
+            <div class="mb-3">
+                <button style="background-color: #008000;" type="submit" class="btn btn-primary">Search</button>
+            </div>
+
+            <div class="col-12 mt-3 d-flex flex-column align-items-center">
+                <textarea id="display" rows="17" cols="58" readonly style="color: #008000;"></textarea>
+            </div>
+        </div>
     </div>
 </div>
+</div>
+</form>
+
+<div class="container text-center">
+    <div class="col">
+        <div class="div_footer">
+            <a href="terms.html" style="color: #008000;">Terms of Use</a>
+        </div>
+        <div class="div_footer">
+            <a href="cookie-policy.html" style="color: #008000;">Cookie and Privacy Policy</a>
+        </div>
+        <div class="div_footer" style="color: #008000;">
+            &copy; 2023 Grocery Outlet
+        </div>
+    </div>
 </div>
 </body>
+<script>
+    function handleSubmit(e) {
+        var prodInput = document.getElementById("ProductID");
+        var prodError = document.getElementById("ProductIDError");
+        var prodDescInput = document.getElementById("ProductDescription");
+        var prodDescError = document.getElementById("ProductDescError");
+        var prodPriceInput = document.getElementById("ProductPrice");
+        var prodPriceError = document.getElementById("ProductPrice");
+        var prodWeightInput = document.getElementById("ProductWeight");
+        var prodWeightError = document.getElementById("ProductWeight");
+        var prodCategorySelect = document.getElementById("ProductCategory");
+        var prodUOMSelect = document.getElementById("ProductUOM");
+
+        if (prodInput.value === "") {
+            prodError.textContent = "Product ID is required";
+            prodInput.classList.add("is-invalid");
+            e.preventDefault();
+        } else {
+            prodError.textContent = "";
+            prodInput.classList.remove("is-invalid");
+        }
+        if (prodDescInput.value === "") {
+            prodDescError.textContent = "Product Description is required";
+            prodDescInput.classList.add("is-invalid");
+            e.preventDefault();
+        } else {
+            prodDescError.textContent = "";
+            prodDescInput.classList.remove("is-invalid");
+        }
+        if (prodPriceInput.value === "") {
+            prodPriceError.textContent = "Product Price is required";
+            prodPriceInput.classList.add("is-invalid");
+            e.preventDefault();
+        } else {
+            prodPriceError.textContent = "";
+            prodPriceInput.classList.remove("is-invalid");
+        }
+        if (prodWeightInput.value === "") {
+            prodWeightError.textContent = "Product Weight is required";
+            prodWeightInput.classList.add("is-invalid");
+            e.preventDefault();
+        } else {
+            prodWeightError.textContent = "";
+            prodWeightInput.classList.remove("is-invalid");
+        }
+        if (prodCategorySelect.value === "") {
+            prodCategorySelect.classList.add("is-invalid");
+            e.preventDefault();
+        } else {
+            prodCategorySelect.classList.remove("is-invalid");
+        }
+        if (prodUOMSelect.value === "") {
+            prodUOMSelect.classList.add("is-invalid");
+            e.preventDefault();
+        } else {
+            prodUOMSelect.classList.remove("is-invalid");
+        }
+    }
+</script>
+
 </html>
