@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<header>
+    <h1>Shopping Cart</h1>
+    <input type="text" id="search-bar" placeholder="Search...">
+    <button id="add-button" class="primary-button">Add</button>
+<!--    This button will add a product to the table, but it will override the hard coded products in the shopping cart,
+        so I commented it out for now but f you want to use it you can uncomment it-->
+<!--    <button id="add-button" class="primary-button" onclick="addToCart({ productId: 1, productName: 'Steak', price: 10.00 })">Add</button>-->
+</header>
+
+<main>
+
+    <table id="cart-table">
+        <thead>
+        <tr>
+            <th>Product ID</th>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>001</td>
+            <td>Product A</td>
+            <td>$19.99</td>
+            <td><input type="number" value="1"></td>
+            <td>$19.99</td>
+            <td><button class="red-button" >Remove</button></td>
+        </tr>
+        <tr>
+            <td>002</td>
+            <td>Product B</td>
+            <td>$29.99</td>
+            <td><input type="number" value="2"></td>
+            <td>$59.98</td>
+            <td><button class="red-button">Remove</button></td>
+        </tr>
+        <tr>
+            <td colspan="4"><b>TOTAL</b></td>
+            <td colspan="2">$79.97</td>
+        </tr>
+        </tbody>
+
+    </table>
+
+
+
+    <button id="checkout-button" class="green-button">Checkout</button>
+</main>
+<script>
+    let shoppingCart = [];
+    function addToCart(product) {
+        const existingProduct = shoppingCart.find(item => item.productId === product.productId);
+        if (existingProduct) {
+            existingProduct.quantity += 1;
+        } else {
+            shoppingCart.push({ productId: product.productId, productName: product.productName, price: product.price, quantity: 1 });
+        }
+        updateCartDisplay();
+    }
+    function updateCartDisplay() {
+        const cartTable = document.querySelector('table tbody');
+        cartTable.innerHTML = '';
+        shoppingCart.forEach(item => {
+            const row = cartTable.insertRow();
+            const productId = row.insertCell(0);
+            const productName = row.insertCell(1);
+            const price = row.insertCell(2);
+            const quantity = row.insertCell(3);
+            const total = row.insertCell(4);
+            const action = row.insertCell(5);
+
+            productId.textContent = item.productId;
+            productName.textContent = item.productName;
+            price.textContent = item.price;
+            quantity.textContent = item.quantity;
+            total.textContent = item.price * item.quantity;
+            action.innerHTML = '<button onclick="removeFromCart(' + item.productId + ')">Remove</button>';
+        });
+    }
+    function removeFromCart(productId) {
+        const index = shoppingCart.findIndex(item => item.productId === productId);
+        if (index !== -1) {
+            shoppingCart.splice(index, 1);
+            updateCartDisplay();
+        }
+    }
+</script>
+
+</body>
+</html>
