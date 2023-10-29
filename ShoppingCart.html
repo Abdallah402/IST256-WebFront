@@ -22,6 +22,7 @@
             <th>Product Name</th>
             <th>Price</th>
             <th>Quantity</th>
+            <th>Total</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -30,18 +31,21 @@
             <td>Dozen Eggs</td>
             <td>$10.00</td>
             <td><input type="number" value="1" min="1" oninput="updateTotal()"></td>
+            <td>$10.00</td>
             <td><button onclick="removeItem(this)">Remove</button></td>
         </tr>
         <tr>
             <td>Gatorade</td>
             <td>$15.00</td>
             <td><input type="number" value="1" min="1" oninput="updateTotal()"></td>
+            <td>$15.00</td>
             <td><button onclick="removeItem(this)">Remove</button></td>
         </tr>
         <tr id="total-row">
             <td><b>Total</b></td>
-            <td id="total-amount">$0.00</td>
             <td></td>
+            <td></td>
+            <td id="total-amount">$0.00</td>
             <td></td>
         </tr>
         </tbody>
@@ -70,15 +74,19 @@
             updateTotal();
         };
         quantityCell.appendChild(quantityInput);
-        const removeButtonCell = newRow.insertCell(3);
+        const totalCell = newRow.insertCell(3);
+        totalCell.textContent = "$" + (product.price * quantityInput.value).toFixed(2);
+        const removeButtonCell = newRow.insertCell(4);
         const removeButton = document.createElement("button");
         removeButton.textContent = "Remove";
         removeButton.onclick = function() {
             removeItem(this);
         };
         removeButtonCell.appendChild(removeButton);
+
         updateTotal();
     }
+
     function removeItem(button) {
         const row = button.closest("tr");
         row.remove();
@@ -92,9 +100,12 @@
         for (let i = 1; i < cartTable.rows.length - 1; i++) {
             const priceCell = cartTable.rows[i].getElementsByTagName("td")[1];
             const quantityInput = cartTable.rows[i].querySelector("input[type='number']");
+            const totalCell = cartTable.rows[i].getElementsByTagName("td")[3];
             const itemPrice = parseFloat(priceCell.textContent.slice(1));
             const itemQuantity = parseInt(quantityInput.value, 10);
-            total += itemPrice * itemQuantity;
+            const itemTotal = itemPrice * itemQuantity;
+            total += itemTotal;
+            totalCell.textContent = "$" + itemTotal.toFixed(2);
         }
         const totalAmountCell = totalRow.querySelector("#total-amount");
         totalAmountCell.textContent = "$" + total.toFixed(2);
