@@ -8,10 +8,10 @@
 <header>
     <h1>Shopping Cart</h1>
     <input type="text" id="search-bar" placeholder="Search...">
-    <button id="add-button" class="primary-button">Add</button>
+<!--    <button id="add-button" class="primary-button">Add</button>-->
 <!--    This button will add a product to the table, but it will override the hard coded products in the shopping cart,
         so I commented it out for now but f you want to use it you can uncomment it-->
-<!--    <button id="add-button" class="primary-button" onclick="addToCart({ productId: 1, productName: 'Steak', price: 10.00 })">Add</button>-->
+    <button id="add-button" class="primary-button" onclick="addToCart({ id: 1, name: 'Steak', price: 10.00 })">Add</button>
 </header>
 
 <main>
@@ -19,80 +19,85 @@
     <table id="cart-table">
         <thead>
         <tr>
-            <th>Product ID</th>
             <th>Product Name</th>
             <th>Price</th>
             <th>Quantity</th>
-            <th>Total</th>
             <th>Action</th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <td>001</td>
-            <td>Product A</td>
-            <td>$19.99</td>
-            <td><input type="number" value="1"></td>
-            <td>$19.99</td>
-            <td><button class="red-button" >Remove</button></td>
+            <td>Dozen Eggs</td>
+            <td>$10.00</td>
+            <td><input type="number" value="1" min="1" oninput="updateTotal()"></td>
+            <td><button onclick="removeItem(this)">Remove</button></td>
         </tr>
         <tr>
-            <td>002</td>
-            <td>Product B</td>
-            <td>$29.99</td>
-            <td><input type="number" value="2"></td>
-            <td>$59.98</td>
-            <td><button class="red-button">Remove</button></td>
+            <td>Gatorade</td>
+            <td>$15.00</td>
+            <td><input type="number" value="1" min="1" oninput="updateTotal()"></td>
+            <td><button onclick="removeItem(this)">Remove</button></td>
         </tr>
-        <tr>
-            <td colspan="4"><b>TOTAL</b></td>
-            <td colspan="2">$79.97</td>
+        <tr id="total-row">
+            <td><b>Total</b></td>
+            <td id="total-amount">$0.00</td>
+            <td></td>
+            <td></td>
         </tr>
         </tbody>
-
     </table>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
 
 
     <button id="checkout-button" class="green-button">Checkout</button>
 </main>
 <script>
-    let shoppingCart = [];
     function addToCart(product) {
-        const existingProduct = shoppingCart.find(item => item.productId === product.productId);
-        if (existingProduct) {
-            existingProduct.quantity += 1;
-        } else {
-            shoppingCart.push({ productId: product.productId, productName: product.productName, price: product.price, quantity: 1 });
-        }
-        updateCartDisplay();
+        const cartTable = document.getElementById("cart-table");
+        const newRow = cartTable.insertRow(cartTable.rows.length - 1);
+        const productNameCell = newRow.insertCell(0);
+        productNameCell.textContent = product.name;
+        const productPriceCell = newRow.insertCell(1);
+        productPriceCell.textContent = "$" + product.price.toFixed(2);
+        const quantityCell = newRow.insertCell(2);
+        const quantityInput = document.createElement("input");
+        quantityInput.type = "number";
+        quantityInput.value = 1;
+        quantityInput.min = 1;
+        quantityInput.oninput = function() {
+            updateTotal();
+        };
+        quantityCell.appendChild(quantityInput);
+        const removeButtonCell = newRow.insertCell(3);
+        const removeButton = document.createElement("button");
+        removeButton.textContent = "Remove";
+        removeButton.onclick = function() {
+            removeItem(this);
+        };
+        removeButtonCell.appendChild(removeButton);
+        updateTotal();
     }
-    function updateCartDisplay() {
-        const cartTable = document.querySelector('table tbody');
-        cartTable.innerHTML = '';
-        shoppingCart.forEach(item => {
-            const row = cartTable.insertRow();
-            const productId = row.insertCell(0);
-            const productName = row.insertCell(1);
-            const price = row.insertCell(2);
-            const quantity = row.insertCell(3);
-            const total = row.insertCell(4);
-            const action = row.insertCell(5);
+    function removeItem(button) {
+        const row = button.closest("tr");
+        row.remove();
+        updateTotal();
+    }
 
-            productId.textContent = item.productId;
-            productName.textContent = item.productName;
-            price.textContent = item.price;
-            quantity.textContent = item.quantity;
-            total.textContent = item.price * item.quantity;
-            action.innerHTML = '<button onclick="removeFromCart(' + item.productId + ')">Remove</button>';
-        });
-    }
-    function removeFromCart(productId) {
-        const index = shoppingCart.findIndex(item => item.productId === productId);
-        if (index !== -1) {
-            shoppingCart.splice(index, 1);
-            updateCartDisplay();
+    function updateTotal() {
+        const cartTable = document.getElementById("cart-table");
+        const totalRow = cartTable.querySelector("#total-row");
+        let total = 0;
+        for (let i = 1; i < cartTable.rows.length - 1; i++) {
+            const priceCell = cartTable.rows[i].getElementsByTagName("td")[1];
+            const quantityInput = cartTable.rows[i].querySelector("input[type='number']");
+            const itemPrice = parseFloat(priceCell.textContent.slice(1));
+            const itemQuantity = parseInt(quantityInput.value, 10);
+            total += itemPrice * itemQuantity;
         }
+        const totalAmountCell = totalRow.querySelector("#total-amount");
+        totalAmountCell.textContent = "$" + total.toFixed(2);
     }
 </script>
 
