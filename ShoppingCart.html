@@ -2,16 +2,22 @@
 <html>
 <head>
     <title>Shopping Cart</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
 <header>
     <h1>Shopping Cart</h1>
-    <input type="text" id="search-bar" placeholder="Search...">
+    <select class="form-select" id="search-bar" aria-label="Default select example">
+        <option >Steak</option>
+        <option value="eggs" >Dozen Eggs</option>
+        <option value="Pasta">Pasta</option>
+        <option value="Ketchup">Ketchup</option>
+        <option value="F Pizza">Frozen Pizza</option>
+      </select>
 <!--    <button id="add-button" class="primary-button">Add</button>-->
 <!--    This button will add a product to the table, but it will override the hard coded products in the shopping cart,
         so I commented it out for now but f you want to use it you can uncomment it-->
-    <button id="add-button" class="primary-button" onclick="addToCart({ id: 1, name: 'Steak', price: 10.00 })">Add</button>
+    <button id="add-button" class="primary-button">Add</button>
 </header>
 
 <main>
@@ -19,6 +25,7 @@
     <table id="cart-table">
         <thead>
         <tr>
+  
             <th>Product Name</th>
             <th>Price</th>
             <th>Quantity</th>
@@ -27,7 +34,9 @@
         </tr>
         </thead>
         <tbody>
+        
         <tr>
+ 
             <td>Dozen Eggs</td>
             <td>$10.00</td>
             <td><input type="number" value="1" min="1" oninput="updateTotal()"></td>
@@ -35,12 +44,50 @@
             <td><button onclick="removeItem(this)">Remove</button></td>
         </tr>
         <tr>
+ 
             <td>Gatorade</td>
             <td>$15.00</td>
             <td><input type="number" value="1" min="1" oninput="updateTotal()"></td>
             <td>$15.00</td>
             <td><button onclick="removeItem(this)">Remove</button></td>
         </tr>
+        <tr>
+
+            <td>Pasta</td>
+            <td>$3.00</td>
+            <td><input type="number" value="1" min="1" oninput="updateTotal()"></td>
+            <td>$3.00</td>
+            <td><button onclick="removeItem(this)">Remove</button></td>
+        </tr>
+
+        <tr>
+
+            <td>Ketchup</td>
+            <td>$1.99</td>
+            <td><input type="number" value="1" min="1" oninput="updateTotal()"></td>
+            <td>$1.99</td>
+            <td><button onclick="removeItem(this)">Remove</button></td>
+        </tr>
+
+        <tr>
+
+            <td>Frozen Pizza</td>
+            <td>$4.99</td>
+            <td><input type="number" value="1" min="1" oninput="updateTotal()"></td>
+            <td>$4.99</td>
+            <td><button onclick="removeItem(this)">Remove</button></td>
+        </tr>
+
+        <tr>
+ 
+            <td>Steak</td>
+            <td>$10.00</td>
+            <td><input type="number" value="1" min="1" oninput="updateTotal()"></td>
+            <td>$10.00</td>
+            <td><button onclick="removeItem(this)">Remove</button></td>
+        </tr>
+
+
         <tr id="total-row">
             <td><b>Total</b></td>
             <td></td>
@@ -59,7 +106,7 @@
 </main>
 <script>
     function addToCart(product) {
-        const cartTable = document.getElementById("cart-table");
+        const cartTable = document.getElementById("search-bar");
         const newRow = cartTable.insertRow(cartTable.rows.length - 1);
         const productNameCell = newRow.insertCell(0);
         productNameCell.textContent = product.name;
@@ -110,6 +157,7 @@
         const totalAmountCell = totalRow.querySelector("#total-amount");
         totalAmountCell.textContent = "$" + total.toFixed(2);
     }
+
 </script>
 
 </body>
