@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Billing Details</title>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Your Store</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Cart</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Billing Details Section -->
+    <div class="container mt-4">
+        <h2>Billing Details</h2>
+        <form  onsubmit="handleSubmit(event)">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="firstName">First Name</label>
+                    <input type="text" class="form-control" id="firstName" placeholder="John">
+                    <div id="firstNameError"></div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" placeholder="Doe">
+                    <div id="lastNameError"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail">Email</label>
+                <input type="text" class="form-control" id="inputEmail" placeholder="john.doe@example.com">
+                <div id="inputEmailError"></div>
+            </div>
+            <div class="form-group">
+                <label for="inputAddress">Address</label>
+                <input type="text" class="form-control" id="inputAddress" placeholder="123 Main St">
+                <div id="inputAddressError"></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputCity">City</label>
+                    <input type="text" class="form-control" id="inputCity" placeholder="Cityville">
+                    <div id="inputCityError"></div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="inputState">State</label>
+                    <select id="inputState" class="form-control">
+                        <option selected>Choose...</option>
+                        <option>California</option>
+                        <option>New York</option>
+                        <option>Mississippi</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="inputZip">Zip</label>
+                    <input type="text" class="form-control" id="inputZip" placeholder="12345" maxlength="5">
+                    <div id="inputZipError"></div>
+
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="displayJSON()">Proceed to Payment</button>
+        </form>
+        <div class="col-12 mt-3 d-flex flex-column align-items-center">
+            <label>JSON</label>
+            <textarea id="display" rows="17" cols="58" readonly style="color: #008000;"></textarea>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+<script>
+    function handleSubmit(e) {
+        var firstName = document.getElementById("firstName");
+        var firstNameError = document.getElementById("firstNameError");
+        var lastName = document.getElementById("lastName");
+        var lastNameError = document.getElementById("lastNameError");
+        var inputEmail = document.getElementById("inputEmail");
+        var inputEmailError = document.getElementById("inputEmailError");
+        var inputAddress = document.getElementById("inputAddress");
+        var inputAddressError = document.getElementById("inputAddressError");
+        var inputCity = document.getElementById("inputCity");
+        var inputCityError = document.getElementById("inputCityError");
+        var inputState = document.getElementById("inputState");
+        var inputZip = document.getElementById("inputZip");
+        var inputZipError = document.getElementById("inputZipError");
+
+
+        if (firstName.value === "") {
+            firstNameError.textContent = "First Name is required";
+            firstName.classList.add("is-invalid");
+            e.preventDefault();
+        } else {
+            firstNameError.textContent = "";
+            firstName.classList.remove("is-invalid");
+        }
+        if (lastName.value === "") {
+            lastNameError.textContent = "Last Name is required";
+            lastName.classList.add("is-invalid");
+            e.preventDefault();
+        } else {
+            lastNameError.textContent = "";
+            lastName.classList.remove("is-invalid");
+        }
+        if (inputEmail.value === "") {
+            inputEmailError.textContent = "E-Mail is required";
+            inputEmail.classList.add("is-invalid");
+            e.preventDefault();
+        } else {
+            inputEmailError.textContent = "";
+            inputEmail.classList.remove("is-invalid");
+        }
+        if (inputAddress.value === "") {
+            inputAddressError.textContent = "Address is required";
+            inputAddress.classList.add("is-invalid");
+            e.preventDefault();
+        } else {
+            inputAddressError.textContent = "";
+            inputAddress.classList.remove("is-invalid");
+        }
+        if (inputCity.value === "") {
+            inputCityError.textContent = "City is required";
+            inputCity.classList.add("is-invalid");
+            e.preventDefault();
+        } else {
+            inputCityError.textContent = "";
+            inputCity.classList.remove("is-invalid");
+        }
+        if (inputState.value === "Choose...") {
+            inputState.classList.add("is-invalid");
+            e.preventDefault();
+        } else {
+            inputState.classList.remove("is-invalid");
+        }
+        if (inputZip.value === "") {
+            inputZipError.textContent = "Zip is required";
+            inputZip.classList.add("is-invalid");
+            e.preventDefault();
+        } else {
+            inputZipError.textContent = "";
+            inputZip.classList.remove("is-invalid");
+        }
+    }
+    function displayJSON() {
+        const firstName = document.getElementById("firstName").value;
+        const lastName = document.getElementById("lastName").value;
+        const inputEmail = document.getElementById("inputEmail").value;
+        const inputAddress = document.getElementById("inputAddress").value;
+        const inputCity = document.getElementById("inputCity").value;
+        const inputState = document.getElementById("inputState").value;
+        const inputZip = document.getElementById("inputZip").value;
+
+
+
+        const data = {FirstName:firstName, LastName:lastName, Email:inputEmail, Address: inputAddress, City:inputCity, State: inputState, ZIP:inputZip};
+        const jsonDisplay = JSON.stringify(data,null, 2);
+
+        document.getElementById("display").value = jsonDisplay;
+
+        console.log(jsonDisplay);
+    }
+
+</script>

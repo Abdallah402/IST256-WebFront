@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Handle Returns</title>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Your Store</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Products</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Returns <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Cart</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Handle Returns Section -->
+    <div class="container mt-4">
+        <h2>Handle Returns</h2>
+        <p>If you need to return a product, please fill out the form below:</p>
+        <form onsubmit="handleSubmit(event)">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="returnName">Your Name</label>
+                    <input type="text" class="form-control" id="returnName" placeholder="John Doe">
+                    <div id="returnNameError"></div>
+
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="returnEmail">Your Email</label>
+                    <input type="text" class="form-control" id="returnEmail" placeholder="john.doe@example.com">
+                    <div id="returnEmailError"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="orderNumber">Order Number</label>
+                <input type="text" class="form-control" id="orderNumber" placeholder="123456">
+                <div id="orderNumberError"></div>
+            </div>
+            <div class="form-group">
+                <label for="returnReason">Reason for Return</label>
+                <textarea class="form-control" id="returnReason" rows="3"></textarea>
+                <div id="returnReasonError"></div>
+
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="displayJSON()">Submit Return Request</button>
+        </form>
+        <div class="col-12 mt-3 d-flex flex-column align-items-center">
+            <label>JSON</label>
+            <textarea id="display" rows="17" cols="58" readonly style="color: #008000;"></textarea>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+<script>
+    function handleSubmit(e) {
+        var returnName = document.getElementById("returnName");
+        var returnNameError = document.getElementById("returnNameError");
+        var returnEmail = document.getElementById("returnEmail");
+        var returnEmailError = document.getElementById("returnEmailError");
+        var orderNumber = document.getElementById("orderNumber");
+        var orderNumberError = document.getElementById("orderNumberError");
+        var returnReason = document.getElementById("returnReason");
+        var returnReasonError = document.getElementById("returnReasonError");
+
+
+        if (returnName.value === "") {
+            returnNameError.textContent = "Name is required";
+            returnName.classList.add("is-invalid");
+            e.preventDefault();
+        } else {
+            returnNameError.textContent = "";
+            returnName.classList.remove("is-invalid");
+        }
+        if (returnEmail.value === "") {
+            returnEmailError.textContent = "Email is required";
+            returnEmail.classList.add("is-invalid");
+            e.preventDefault();
+        } else {
+            returnEmailError.textContent = "";
+            returnEmail.classList.remove("is-invalid");
+        }
+        if (orderNumber.value === "") {
+            orderNumberError.textContent = "Order Number is required";
+            orderNumber.classList.add("is-invalid");
+            e.preventDefault();
+        } else {
+            orderNumberError.textContent = "";
+            orderNumber.classList.remove("is-invalid");
+        }
+        if (returnReason.value === "") {
+            returnReasonError.textContent = "Return Reason is required";
+            returnReason.classList.add("is-invalid");
+            e.preventDefault();
+        } else {
+            returnReasonError.textContent = "";
+            returnReason.classList.remove("is-invalid");
+        }
+    }
+
+    function displayJSON() {
+        const returnName = document.getElementById("returnName").value;
+        const returnEmail = document.getElementById("returnEmail").value;
+        const orderNumber = document.getElementById("orderNumber").value;
+        const returnReason = document.getElementById("returnReason").value;
+
+
+        const data = {Name:returnName, Email:returnEmail, OrderNumber: orderNumber, ReturnReason: returnReason};
+        const jsonDisplay = JSON.stringify(data,null, 2);
+
+        document.getElementById("display").value = jsonDisplay;
+
+        console.log(jsonDisplay);
+    }
+</script>
