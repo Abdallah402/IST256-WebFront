@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <title>Handle Returns</title>
 </head>
 <body>
@@ -43,7 +44,6 @@
                     <label for="returnName">Your Name</label>
                     <input type="text" class="form-control" id="returnName" placeholder="John Doe">
                     <div id="returnNameError"></div>
-
                 </div>
                 <div class="form-group col-md-6">
                     <label for="returnEmail">Your Email</label>
@@ -60,9 +60,9 @@
                 <label for="returnReason">Reason for Return</label>
                 <textarea class="form-control" id="returnReason" rows="3"></textarea>
                 <div id="returnReasonError"></div>
-
             </div>
             <button type="submit" class="btn btn-primary" onclick="displayJSON()">Submit Return Request</button>
+            <button type="button" class="btn btn-success" onclick="searchProducts()">Search Products</button>
         </form>
         <div class="col-12 mt-3 d-flex flex-column align-items-center">
             <label>JSON</label>
@@ -74,66 +74,82 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function handleSubmit(e) {
+            var returnName = document.getElementById("returnName");
+            var returnNameError = document.getElementById("returnNameError");
+            var returnEmail = document.getElementById("returnEmail");
+            var returnEmailError = document.getElementById("returnEmailError");
+            var orderNumber = document.getElementById("orderNumber");
+            var orderNumberError = document.getElementById("orderNumberError");
+            var returnReason = document.getElementById("returnReason");
+            var returnReasonError = document.getElementById("returnReasonError");
+
+            if (returnName.value === "") {
+                returnNameError.textContent = "Name is required";
+                returnName.classList.add("is-invalid");
+                e.preventDefault();
+            } else {
+                returnNameError.textContent = "";
+                returnName.classList.remove("is-invalid");
+            }
+            if (returnEmail.value === "") {
+                returnEmailError.textContent = "Email is required";
+                returnEmail.classList.add("is-invalid");
+                e.preventDefault();
+            } else {
+                returnEmailError.textContent = "";
+                returnEmail.classList.remove("is-invalid");
+            }
+            if (orderNumber.value === "") {
+                orderNumberError.textContent = "Order Number is required";
+                orderNumber.classList.add("is-invalid");
+                e.preventDefault();
+            } else {
+                orderNumberError.textContent = "";
+                orderNumber.classList.remove("is-invalid");
+            }
+            if (returnReason.value === "") {
+                returnReasonError.textContent = "Return Reason is required";
+                returnReason.classList.add("is-invalid");
+                e.preventDefault();
+            } else {
+                returnReasonError.textContent = "";
+                returnReason.classList.remove("is-invalid");
+            }
+        }
+
+        function displayJSON() {
+            const returnName = document.getElementById("returnName").value;
+            const returnEmail = document.getElementById("returnEmail").value;
+            const orderNumber = document.getElementById("orderNumber").value;
+            const returnReason = document.getElementById("returnReason").value;
+
+            const data = { Name: returnName, Email: returnEmail, OrderNumber: orderNumber, ReturnReason: returnReason };
+            const jsonDisplay = JSON.stringify(data, null, 2);
+
+            document.getElementById("display").value = jsonDisplay;
+
+            console.log(jsonDisplay);
+        }
+
+        function searchProducts() {
+            const apiEndpoint = 'your_api_endpoint';
+            const productName = prompt("Enter the product name to search:");
+
+            $.ajax({
+                url: apiEndpoint,
+                type: 'GET',
+                data: { productName: productName },
+                success: function (response) {
+                    console.log('Product search results:', response);
+                },
+                error: function (error) {
+                    console.error('Error in product search:', error);
+                }
+            });
+        }
+    </script>
 </body>
 </html>
-<script>
-    function handleSubmit(e) {
-        var returnName = document.getElementById("returnName");
-        var returnNameError = document.getElementById("returnNameError");
-        var returnEmail = document.getElementById("returnEmail");
-        var returnEmailError = document.getElementById("returnEmailError");
-        var orderNumber = document.getElementById("orderNumber");
-        var orderNumberError = document.getElementById("orderNumberError");
-        var returnReason = document.getElementById("returnReason");
-        var returnReasonError = document.getElementById("returnReasonError");
-
-
-        if (returnName.value === "") {
-            returnNameError.textContent = "Name is required";
-            returnName.classList.add("is-invalid");
-            e.preventDefault();
-        } else {
-            returnNameError.textContent = "";
-            returnName.classList.remove("is-invalid");
-        }
-        if (returnEmail.value === "") {
-            returnEmailError.textContent = "Email is required";
-            returnEmail.classList.add("is-invalid");
-            e.preventDefault();
-        } else {
-            returnEmailError.textContent = "";
-            returnEmail.classList.remove("is-invalid");
-        }
-        if (orderNumber.value === "") {
-            orderNumberError.textContent = "Order Number is required";
-            orderNumber.classList.add("is-invalid");
-            e.preventDefault();
-        } else {
-            orderNumberError.textContent = "";
-            orderNumber.classList.remove("is-invalid");
-        }
-        if (returnReason.value === "") {
-            returnReasonError.textContent = "Return Reason is required";
-            returnReason.classList.add("is-invalid");
-            e.preventDefault();
-        } else {
-            returnReasonError.textContent = "";
-            returnReason.classList.remove("is-invalid");
-        }
-    }
-
-    function displayJSON() {
-        const returnName = document.getElementById("returnName").value;
-        const returnEmail = document.getElementById("returnEmail").value;
-        const orderNumber = document.getElementById("orderNumber").value;
-        const returnReason = document.getElementById("returnReason").value;
-
-
-        const data = {Name:returnName, Email:returnEmail, OrderNumber: orderNumber, ReturnReason: returnReason};
-        const jsonDisplay = JSON.stringify(data,null, 2);
-
-        document.getElementById("display").value = jsonDisplay;
-
-        console.log(jsonDisplay);
-    }
-</script>

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <title>Billing Details</title>
 </head>
 <body>
@@ -33,7 +34,7 @@
     <!-- Billing Details Section -->
     <div class="container mt-4">
         <h2>Billing Details</h2>
-        <form  onsubmit="handleSubmit(event)">
+        <form onsubmit="handleSubmit(event)">
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="firstName">First Name</label>
@@ -75,10 +76,9 @@
                     <label for="inputZip">Zip</label>
                     <input type="text" class="form-control" id="inputZip" placeholder="12345" maxlength="5">
                     <div id="inputZipError"></div>
-
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary" onclick="displayJSON()">Proceed to Payment</button>
+            <button type="button" class="btn btn-primary" onclick="proceedToPayment()">Proceed to Payment</button>
         </form>
         <div class="col-12 mt-3 d-flex flex-column align-items-center">
             <label>JSON</label>
@@ -90,97 +90,146 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function handleSubmit(e) {
+            var firstName = document.getElementById("firstName");
+            var firstNameError = document.getElementById("firstNameError");
+            var lastName = document.getElementById("lastName");
+            var lastNameError = document.getElementById("lastNameError");
+            var inputEmail = document.getElementById("inputEmail");
+            var inputEmailError = document.getElementById("inputEmailError");
+            var inputAddress = document.getElementById("inputAddress");
+            var inputAddressError = document.getElementById("inputAddressError");
+            var inputCity = document.getElementById("inputCity");
+            var inputCityError = document.getElementById("inputCityError");
+            var inputState = document.getElementById("inputState");
+            var inputZip = document.getElementById("inputZip");
+            var inputZipError = document.getElementById("inputZipError");
+
+            if (firstName.value === "") {
+                firstNameError.textContent = "First Name is required";
+                firstName
+                Error.textContent = "First Name is required";
+                firstName.classList.add("is-invalid");
+                e.preventDefault();
+            } else {
+                firstNameError.textContent = "";
+                firstName.classList.remove("is-invalid");
+            }
+            if (lastName.value === "") {
+                lastNameError.textContent = "Last Name is required";
+                lastName.classList.add("is-invalid");
+                e.preventDefault();
+            } else {
+                lastNameError.textContent = "";
+                lastName.classList.remove("is-invalid");
+            }
+            if (inputEmail.value === "") {
+                inputEmailError.textContent = "E-Mail is required";
+                inputEmail.classList.add("is-invalid");
+                e.preventDefault();
+            } else {
+                inputEmailError.textContent = "";
+                inputEmail.classList.remove("is-invalid");
+            }
+            if (inputAddress.value === "") {
+                inputAddressError.textContent = "Address is required";
+                inputAddress.classList.add("is-invalid");
+                e.preventDefault();
+            } else {
+                inputAddressError.textContent = "";
+                inputAddress.classList.remove("is-invalid");
+            }
+            if (inputCity.value === "") {
+                inputCityError.textContent = "City is required";
+                inputCity.classList.add("is-invalid");
+                e.preventDefault();
+            } else {
+                inputCityError.textContent = "";
+                inputCity.classList.remove("is-invalid");
+            }
+            if (inputState.value === "Choose...") {
+                inputState.classList.add("is-invalid");
+                e.preventDefault();
+            } else {
+                inputState.classList.remove("is-invalid");
+            }
+            if (inputZip.value === "") {
+                inputZipError.textContent = "Zip is required";
+                inputZip.classList.add("is-invalid");
+                e.preventDefault();
+            } else {
+                inputZipError.textContent = "";
+                inputZip.classList.remove("is-invalid");
+            }
+        }
+
+        function proceedToPayment() {
+            // Perform form validation before proceeding
+            var isValid = validateForm();
+
+            if (isValid) {
+                // If the form is valid, proceed to payment
+                sendPaymentData();
+            }
+        }
+
+        function validateForm() {
+            var firstName = document.getElementById("firstName");
+            var lastName = document.getElementById("lastName");
+            var inputEmail = document.getElementById("inputEmail");
+            var inputAddress = document.getElementById("inputAddress");
+            var inputCity = document.getElementById("inputCity");
+            var inputState = document.getElementById("inputState");
+            var inputZip = document.getElementById("inputZip");
+
+            // Implement form validation logic here
+            // Return true if the form is valid, otherwise return false
+
+            return true; // Placeholder, replace with actual validation logic
+        }
+
+        function sendPaymentData() {
+            // Get data from the form
+            const firstName = document.getElementById("firstName").value;
+            const lastName = document.getElementById("lastName").value;
+            const inputEmail = document.getElementById("inputEmail").value;
+            const inputAddress = document.getElementById("inputAddress").value;
+            const inputCity = document.getElementById("inputCity").value;
+            const inputState = document.getElementById("inputState").value;
+            const inputZip = document.getElementById("inputZip").value;
+
+            const data = {
+                FirstName: firstName,
+                LastName: lastName,
+                Email: inputEmail,
+                Address: inputAddress,
+                City: inputCity,
+                State: inputState,
+                ZIP: inputZip
+            };
+
+            const jsonData = JSON.stringify(data);
+            document.getElementById("display").value = jsonData;
+
+            
+            // Perform AJAX request to send data to the server
+            $.ajax({
+                url: "your_payment_api_endpoint",
+                type: "POST",
+                data: jsonData,
+                success: function(response) {
+                    console.log("Payment successful:", response);
+                    alert("Payment successful!");
+                },
+                error: function(error) {
+                    console.error("Payment error:", error);
+                    alert("Payment failed. Please try again.");
+                }
+            });
+        }
+    </script>
 </body>
 </html>
-<script>
-    function handleSubmit(e) {
-        var firstName = document.getElementById("firstName");
-        var firstNameError = document.getElementById("firstNameError");
-        var lastName = document.getElementById("lastName");
-        var lastNameError = document.getElementById("lastNameError");
-        var inputEmail = document.getElementById("inputEmail");
-        var inputEmailError = document.getElementById("inputEmailError");
-        var inputAddress = document.getElementById("inputAddress");
-        var inputAddressError = document.getElementById("inputAddressError");
-        var inputCity = document.getElementById("inputCity");
-        var inputCityError = document.getElementById("inputCityError");
-        var inputState = document.getElementById("inputState");
-        var inputZip = document.getElementById("inputZip");
-        var inputZipError = document.getElementById("inputZipError");
 
-
-        if (firstName.value === "") {
-            firstNameError.textContent = "First Name is required";
-            firstName.classList.add("is-invalid");
-            e.preventDefault();
-        } else {
-            firstNameError.textContent = "";
-            firstName.classList.remove("is-invalid");
-        }
-        if (lastName.value === "") {
-            lastNameError.textContent = "Last Name is required";
-            lastName.classList.add("is-invalid");
-            e.preventDefault();
-        } else {
-            lastNameError.textContent = "";
-            lastName.classList.remove("is-invalid");
-        }
-        if (inputEmail.value === "") {
-            inputEmailError.textContent = "E-Mail is required";
-            inputEmail.classList.add("is-invalid");
-            e.preventDefault();
-        } else {
-            inputEmailError.textContent = "";
-            inputEmail.classList.remove("is-invalid");
-        }
-        if (inputAddress.value === "") {
-            inputAddressError.textContent = "Address is required";
-            inputAddress.classList.add("is-invalid");
-            e.preventDefault();
-        } else {
-            inputAddressError.textContent = "";
-            inputAddress.classList.remove("is-invalid");
-        }
-        if (inputCity.value === "") {
-            inputCityError.textContent = "City is required";
-            inputCity.classList.add("is-invalid");
-            e.preventDefault();
-        } else {
-            inputCityError.textContent = "";
-            inputCity.classList.remove("is-invalid");
-        }
-        if (inputState.value === "Choose...") {
-            inputState.classList.add("is-invalid");
-            e.preventDefault();
-        } else {
-            inputState.classList.remove("is-invalid");
-        }
-        if (inputZip.value === "") {
-            inputZipError.textContent = "Zip is required";
-            inputZip.classList.add("is-invalid");
-            e.preventDefault();
-        } else {
-            inputZipError.textContent = "";
-            inputZip.classList.remove("is-invalid");
-        }
-    }
-    function displayJSON() {
-        const firstName = document.getElementById("firstName").value;
-        const lastName = document.getElementById("lastName").value;
-        const inputEmail = document.getElementById("inputEmail").value;
-        const inputAddress = document.getElementById("inputAddress").value;
-        const inputCity = document.getElementById("inputCity").value;
-        const inputState = document.getElementById("inputState").value;
-        const inputZip = document.getElementById("inputZip").value;
-
-
-
-        const data = {FirstName:firstName, LastName:lastName, Email:inputEmail, Address: inputAddress, City:inputCity, State: inputState, ZIP:inputZip};
-        const jsonDisplay = JSON.stringify(data,null, 2);
-
-        document.getElementById("display").value = jsonDisplay;
-
-        console.log(jsonDisplay);
-    }
-
-</script>
