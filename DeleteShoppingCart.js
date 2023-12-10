@@ -6,7 +6,7 @@ var MongoClient = mongodb.MongoClient;
 app.get("/Delete", function(req, res) {
     res.header("Access-Control-Allow-Origin", "*");
 
-    if (!req.query.username) {
+    if (!req.query.productName) {
         return res.send({ "status": "error", "message": "missing product name" });
     } else {
         var url = 'mongodb://localhost:27017';
@@ -15,7 +15,7 @@ app.get("/Delete", function(req, res) {
             if (err) {
                 return res.send({ "result": "remove failed" });
             } else {
-                var collection = db.collection('shoppingCart');
+                var collection = db.collection('shopping cart');
                 collection.remove({ "Product Name": req.query.productName });
                 db.close();
                 return res.send({ "result": "remove passed" });
