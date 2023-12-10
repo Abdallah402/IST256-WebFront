@@ -23,8 +23,8 @@ app.get("/CreateShoppingCart", function(req, res) {
                 return res.send({ "result": "failed MongoDB connection" });
             } else {
                 var db = mongoClient.db("team001");
-                var collection = db.collection('shoppingCart');
-                collection.insert(shoppingCart);
+                var collection = db.collection('shopping cart');
+                collection.insert(shopping cart);
                 mongoClient.close();
                 return res.send({"result" : "create passed"});
             } 
