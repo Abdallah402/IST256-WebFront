@@ -14,7 +14,7 @@ app.get("/ReadShoppingCart", function(req, res) {
             if (err) {
                 return res.send({ "result": "read failed" });
             } else {
-                var collection = db.collection('shoppingCart');
+                var collection = db.collection('shopping cart');
                 collection.find({ "Product Name": req.query.productName }).toArray(function (error, shoppingCart) {
                     db.close();
                     return res.send(shoppingCart);
