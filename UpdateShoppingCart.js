@@ -6,7 +6,7 @@ var MongoClient = mongodb.MongoClient;
 app.get("/Update", function(req, res) {
     res.header("Access-Control-Allow-Origin", "*");
 
-    if (!req.query.username) {
+    if (!req.query.productName) {
         return res.send({ "status": "error", "message": "missing product" });
     } else {
         var shoppingCart = {
@@ -22,7 +22,7 @@ app.get("/Update", function(req, res) {
             if (err) {
                 return res.send({ "result": "update failed" });
             } else {
-                var collection = db.collection('shoppingCart');
+                var collection = db.collection('shopping cart');
                 collection.update({ "Product Name": req.query.productName }, shoppingCart);
                 db.close();
                 return res.send({ "result": "update passed" });
