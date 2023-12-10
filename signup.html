@@ -23,7 +23,7 @@
 
     #display {
       background-color: #FFFFFF;
-      color: #00000;
+      color: #000000;
       border: none;
       resize: none;
       overflow: hidden;
@@ -52,13 +52,18 @@
         </div>
 
         <div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1">
+          <label for="exampleAddress">Address</label>
+          <input type="text" class="form-control" id="exampleAddress">
         </div>
 
         <div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label">Confirm password</label>
-          <input type="password" class="form-control" id="confirmPassword">
+          <label for="exampleAge">Age</label>
+          <input type="number" class="form-control" id="exampleAge">
+        </div>
+
+        <div class="mb-3">
+          <label for="examplePhoneNumber">Phone Number</label>
+          <input type="tel" class="form-control" id="examplePhoneNumber">
         </div>
 
         <div class="mb-3 form-check">
@@ -89,17 +94,6 @@
     }
   }
 
-  function validatePass() {
-    const password = document.getElementById("exampleInputPassword1").value.trim();
-    const confirmPassword = document.getElementById("confirmPassword").value.trim();
-
-    if (password !== confirmPassword) {
-      alert("Both passwords do not match");
-      document.getElementById("exampleInputPassword1").value = "";
-      document.getElementById("confirmPassword").value = "";
-    }
-  }
-
   function validationEmail(obj) {
     const trimmedValue = obj.value.trim();
 
@@ -116,9 +110,11 @@
       }
     }
   }
+
   function validateForm() {
     return true; 
   }
+
   function displayJSON(data) {
     const jsonDisplay = JSON.stringify(data, null, 2);
     document.getElementById("display").value = jsonDisplay;
@@ -130,15 +126,17 @@
     if (validateForm()) {
       const username = document.getElementById("exampleUsername").value;
       const email = document.getElementById("exampleInputEmail1").value;
-      const password = document.getElementById("exampleInputPassword1").value;
-      const confPassword = document.getElementById("confirmPassword").value;
+      const address = document.getElementById("exampleAddress").value;
+      const age = document.getElementById("exampleAge").value;
+      const phoneNumber = document.getElementById("examplePhoneNumber").value;
 
       const formData = 
       {
         username: username,
         email: email,
-        password: password,
-        confirmPassword: confPassword
+        address: address,
+        age: age,
+        phoneNumber: phoneNumber
       };
 
       displayJSON(formData);
