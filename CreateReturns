@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 
-app.get("/CreateProducts", function(req, res) {
+app.get("/CreateReturns", function(req, res) {
     var mongodb = require('mongodb');
     var MongoClient = mongodb.MongoClient;
 
